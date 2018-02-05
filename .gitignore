@@ -1,2 +1,3 @@
-conf/
-__pycache__/
+conf
+__pycache__
+.idea
