@@ -2,20 +2,32 @@
 
 DB_CONFIG = {
     'local': {'host': '127.0.0.1',
-              'user': '',
-              'password': '',
-              'db': '',
+              'user': 'jxlc_edu',
+              'password': 'dPWuUhn7pWqN2dTq',
+              'db': 'edu_school',
               'charset': 'utf8',
               },
+    'dev': {'host': 'api.school.jxjt.me',
+            'user': 'jxlc_edu',
+            'password': 'dPWuUhn7pWqN2dTq',
+            'db': 'edu_school',
+            'charset': 'utf8',
+            },
 }
 
 EDU_CONFIG = {
     'local': {'host': '127.0.0.1',
-              'user': '',
-              'password': '',
+              'user': 'jxlc_edu',
+              'password': 'dPWuUhn7pWqN2dTq',
               'db': 'edu',
               'charset': 'utf8',
               },
+    'dev': {'host': 'api.school.jxjt.me',
+            'user': 'jxlc_edu',
+            'password': 'dPWuUhn7pWqN2dTq',
+            'db': 'edu',
+            'charset': 'utf8',
+            },
 }
 
 DOC_CONFIG = {

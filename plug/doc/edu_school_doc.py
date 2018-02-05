@@ -4,6 +4,7 @@ import re
 import requests
 import json
 import os
+from core.lib.color import *
 from core.lib.mysql import Mysql
 
 
@@ -50,8 +51,10 @@ class EduSchoolDoc:
 
             if row['method'] == 'GET':
                 data['get'] = str(json.dumps(param))
+                data['post'] = ''
             else:
                 data['post'] = str(json.dumps(param))
+                data['get'] = ''
 
             if act is None:
                 data['title'] = row['title']
@@ -64,30 +67,44 @@ class EduSchoolDoc:
         back = []
         true_back = []
         for files in os.listdir(self.path):
+            if files not in self.manage:
+                continue
             controller = files[:files.index('Controller')]
             with open(self.path + '/' + files, encoding='utf8') as f:
                 content = f.read()
-                cls = re.findall(r"(/\*\*.*\nclass.*?\{)", content, flags=re.DOTALL + re.MULTILINE)
+                cls = re.findall(r"(/\*\*\n[ ]*\*[ ]*@class.*?\*/)", content, flags=re.DOTALL + re.MULTILINE)
                 if len(cls) == 0:
                     continue
-                cls_info = re.findall(r'\* (.*)\n', cls[0])
+                cls_title = re.findall(r"@class(.*?)\n", cls[0], flags=re.DOTALL + re.MULTILINE)
+                if len(cls_title) == 0:
+                    raise ValueError('Need class title')
+                cls_author = re.findall(r"@author(.*?)\n", cls[0], flags=re.DOTALL + re.MULTILINE)
+                if len(cls_title) == 0:
+                    raise ValueError('Need class author')
 
-                local = [m.start() for m in re.finditer(r"(/\*\*.*?\{)", content, flags=re.DOTALL + re.MULTILINE)]
+                cls_info = [cls_title[0], cls_author[0]]
+
+                '''local = [m.start() for m in re.finditer(r"(/\*\*.*?\{)", content, flags=re.DOTALL + re.MULTILINE)]
                 if len(local) <= 1:
                     continue
-                content = content[local[1]:]
+                content = content[local[1]:]'''
 
-                m = re.findall(r"(/\*\*.*?\{)", content, flags=re.DOTALL + re.MULTILINE)
+                m = re.findall(r"(/\*\*\n[ ]*\*[ ]*@action.*?\{)", content, flags=re.DOTALL + re.MULTILINE)
                 for i in m:
-                    info = re.findall(r'\* (.*)\n', i)
+                    info = re.findall(r'@action(.*?)\n', i)
+                    if len(info) == 0:
+                        raise ValueError('Need action title')
                     titles = info[0].strip().split(' ')
-                    method = info[1].strip().upper()
-                    if method != 'POST' and method != 'GET':
+                    method = re.findall(r'@method(.*?)\n', i)
+                    if len(method) == 0:
                         raise ValueError('Need request method using POST or GET')
+                    method = method[0]
+                    params_content = re.findall(r'@param(.*?)\n', i)
                     params = []
-                    for p in info[2:]:
+                    for p in params_content:
                         param = re.split(r'\s+', p.strip())
                         params.append(param)
+
                     action = re.findall(r'[\s]*(\w*)[\s]*\(', i)
                     if len(action) == 0:
                         continue
@@ -118,6 +135,7 @@ class EduSchoolDoc:
                 for k in row['params']:
                     param[k[0]] = k[1]
             print('PARAM:  ' + str(param))
+            print('METHOD:  ' + row['method'])
             if row['method'] == 'GET':
                 response = requests.get(self.domain + row['func'][:-6], {'encrypt_type': 1, 'content': json.dumps(param)})
             else:
@@ -134,7 +152,8 @@ class EduSchoolDoc:
                     print(response.text)
             else:
                 filename = os.path.dirname(__file__) + '/error/' + row['func'][1:].replace('/', '_') + '.html'
-                print('STATUS:  ' + 'ERROR')
+                print('STATUS:  ', end="")
+                print_color_text(FOREGROUND_RED, 'ERROR')
                 print('RESPONSE:  ===========> WRITE IN FILE: ' + filename.replace('/', '\\'))
                 with open(filename, 'w', encoding='utf8') as f:
                     f.write(response.text)
