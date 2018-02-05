@@ -2,43 +2,43 @@
 development frame for back-end developer by python3.6，etc. generate document or add testing data
 ## dir explain
 '''
-action
+    action
 
-    doc.py // use for generate api document
+        doc.py // use for generate api document
 
-conf
+    conf
 
-    common.py // common config
+        common.py // common config
 
-    db.py // mysql config
+        db.py // mysql config
 
-    plug // plug config
+        plug // plug config
 
-core
+    core
 
-    lib
+        lib
 
-        color.py // terminal color
+            color.py // terminal color
 
-        mysql.py // mysql connect class
+            mysql.py // mysql connect class
 
-    app.py // start app instance
+        app.py // start app instance
 
-    factory.py // product object
+        factory.py // product object
 
-    home.py // class for store up instance or param
+        home.py // class for store up instance or param
 
-    parse.py // parse console param
+        parse.py // parse console param
 
-plug
+    plug
 
-    doc
+        doc
 
-        doc_web // document web project
+            doc_web // document web project
+    
+            error // http response error
 
-        error // http response error
+            edu_school_doc.py // generate document class
 
-        edu_school_doc.py // generate document class
-
-index.py // start instance
+    index.py // start instance
 '''
