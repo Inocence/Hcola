@@ -84,3 +84,20 @@ PLUG = {
     }
 }
 ```
+Standard of plug document that you should follow, espacially, if **true** afer actionname, mean is only request the API, if **false**, do not request the API.
+```
+/**
+ * @class classname
+ * @author author
+ */
+class Example {
+    /**
+     * @action actionname true|false
+     * @method POST
+     * @param username jack usename
+     * @param password 123456 password
+     */
+    public function login() {
+        //TODO
+    }
+}
