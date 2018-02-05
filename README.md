@@ -1,5 +1,5 @@
 # Hcola
-development framework for back-end developer by python3.6，etc. generate document or add testing data
+Development framework for back-end developer by python3.6, for example, generate document or add testing data
 ## Explain
 ```
 action
@@ -25,12 +25,12 @@ plug
 index.py // start instance
 ```
 ## Usage
-if you wanna add test data to mysql, first, you should create a file, and make a class.
+If you wanna add test data to mysql, first, you should create a file, and make a class.
  for example, filename is  **add_test_data.py** , class should be **AddTestData**, finally, you should write a **run()** function in the class. **dev** is mysql envinonment, and you can configure it in **conf/db.py**
 ```
 python index.py add_test_data.py dev
 ```
-if you wanna generate API document, you just run the command. **-r** is use for refresh mysql data which will be use for showing in doc website. if you do not use **-r**, it just request APIs, and never refresh the document data.
+If you wanna generate API document, you just run the command. **-r** is use for refresh mysql data which will be use for showing in doc website. if you do not use **-r**, it just request APIs, and never refresh the document data.
 ```
 python index.py doc.py -r
 ```
@@ -53,7 +53,7 @@ DB_CONFIG = {
 ```
 Pass the config to **Mysql(DB_CONFIG)**, will return db connect.
 ```
-self.db = Mysql(EDU_CONFIG)
+self.db = Mysql(DB_CONFIG)
 ```
 Insert function.
 ```
